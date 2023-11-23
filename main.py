@@ -8,7 +8,7 @@ from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 
 # Replace 'base_url' with the actual Ollama base URL
-ollama = Ollama(base_url='http://localhost:11434', model="mistral-openorca")
+ollama = Ollama(base_url='http://localhost:11434', model="orca-mini")
 
 # Persistence directory for ChromaDB
 persist_directory = './chroma_db'
