@@ -14,23 +14,18 @@ ollama = Ollama(base_url='http://localhost:11434', model="mistral-openorca")
 # Path to the local directory containing the .mdx files
 docs_path = 'meshtastic/docs/'
 
-# Convert all_documents to use the Document class
-all_documents = {
-    file_path: Document(page_content=f.read(), metadata={})
-    for subdir, dirs, files in os.walk(docs_path)
-    for file in files if file.endswith('.mdx')
-    for file_path in [os.path.join(subdir, file)]
-}
-
-# Recursively find all .mdx files and load their content
+# Recursively find all .mdx files, load their content, and wrap them in Document objects
+all_documents = {}
 for subdir, dirs, files in os.walk(docs_path):
     for file in files:
         if file.endswith('.mdx'):
             file_path = os.path.join(subdir, file)
             with open(file_path, 'r', encoding='utf-8') as f:
-                all_documents[file_path] = f.read()
+                # Read the content and create a Document object
+                content = f.read()
+                all_documents[file_path] = Document(page_content=content, metadata={})
 
-# Split documents into chunks
+# Now that you have a dictionary of Document objects, you can split them into chunks
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=20)
 all_splits = text_splitter.split_documents(all_documents.values())
 
