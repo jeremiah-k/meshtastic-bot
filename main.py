@@ -4,7 +4,7 @@ from langchain.docstore.document import Document
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import GPT4AllEmbeddings
-from langchain.vectorstores import chroma
+from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 
 
@@ -34,7 +34,7 @@ all_splits_flat = [chunk.page_content for chunk in all_splits]
 
 # Create embeddings
 embedder = GPT4AllEmbeddings()
-vectorstore = chroma.from_documents(documents=all_splits_flat, embedding=embedder)
+vectorstore = Chroma.from_documents(documents=all_splits_flat, embedding=embedder)
 
 # Create a RetrievalQA chain
 qa_chain = RetrievalQA.from_chain_type(ollama, retriever=vectorstore.as_retriever())
