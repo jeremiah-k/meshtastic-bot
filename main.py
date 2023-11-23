@@ -1,9 +1,9 @@
 import os
 from langchain.llms import Ollama
-from langchain.document_loaders import LocalDocumentLoader
+from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import GPT4AllEmbeddings
-from langchain.vectorstores import Chroma
+from langchain.vectorstores import chroma
 from langchain.chains import RetrievalQA
 
 # Replace 'base_url' with the actual Ollama base URL
