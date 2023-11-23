@@ -44,7 +44,7 @@ else:
 qa_chain = RetrievalQA.from_chain_type(ollama, retriever=vectorstore.as_retriever())
 
 # Example question
-question = "What is the range of a Meshtastic device?"
+question = input("Enter your Meshtastic-related question: ")
 
 # Get answer
 answer = qa_chain({"query": question})
