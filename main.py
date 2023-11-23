@@ -34,7 +34,7 @@ all_splits_flat = [chunk.page_content for chunk in all_splits]
 
 # Create embeddings
 embedder = GPT4AllEmbeddings()
-vectorstore = Chroma.from_documents(documents=all_splits_flat, embedding=embedder)
+vectorstore = chroma.from_documents(documents=all_splits_flat, embedding=embedder)
 
 # Create a RetrievalQA chain
 qa_chain = RetrievalQA.from_chain_type(ollama, retriever=vectorstore.as_retriever())
