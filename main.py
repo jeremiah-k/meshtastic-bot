@@ -43,9 +43,17 @@ else:
 # Create a RetrievalQA chain
 qa_chain = RetrievalQA.from_chain_type(ollama, retriever=vectorstore.as_retriever())
 
-# Example question
-question = input("Enter your Meshtastic-related question: ")
-
-# Get answer
-answer = qa_chain({"query": question})
-print(answer)
+# Start a loop that keeps asking for questions
+while True:
+    # Ask the user to enter a question
+    question = input("Enter your Meshtastic-related question (or type 'exit' to quit): ")
+    
+    # Break the loop if the user types 'exit'
+    if question.lower() == 'exit':
+        print("Exiting the program.")
+        break
+    
+    # Get and print the answer
+    answer = qa_chain({"query": question})
+    print("Answer:", answer)
+    print()  # Print a newline for better readability
