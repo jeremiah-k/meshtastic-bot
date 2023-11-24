@@ -1,4 +1,6 @@
 import os
+import discord
+from discord.ext import commands
 from langchain.llms import Ollama
 from langchain.docstore.document import Document
 from langchain.document_loaders import TextLoader
@@ -6,6 +8,12 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import GPT4AllEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
+
+# Bot command prefix
+BOT_PREFIX = '!'
+
+# Replace 'your_discord_bot_token' with your actual Discord bot token
+DISCORD_BOT_TOKEN = 'your_discord_bot_token'
 
 # Replace 'base_url' with the actual Ollama base URL
 ollama = Ollama(base_url='http://localhost:11434', model="orca-mini")
@@ -43,17 +51,18 @@ else:
 # Create a RetrievalQA chain
 qa_chain = RetrievalQA.from_chain_type(ollama, retriever=vectorstore.as_retriever())
 
-# Start a loop that keeps asking for questions
-while True:
-    # Ask the user to enter a question
-    question = input("Enter your Meshtastic-related question (or type 'exit' to quit): ")
-    
-    # Break the loop if the user types 'exit'
-    if question.lower() == 'exit':
-        print("Exiting the program.")
-        break
-    
-    # Get and print the answer
+# Initialize the Discord bot
+bot = commands.Bot(command_prefix=BOT_PREFIX)
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user.name} has connected to Discord!')
+
+@bot.command(name='ask', help='Ask a Meshtastic-related question.')
+async def ask_question(ctx, *, question):
+    # Get and send the answer
     answer = qa_chain({"query": question})
-    print("Answer:", answer)
-    print()  # Print a newline for better readability
+    await ctx.send(answer)
+
+# Run the bot
+bot.run(DISCORD_BOT_TOKEN)
