@@ -1,3 +1,5 @@
+# Note: Development of this project has been moved to a self-hosted GitLab instance. You can start a discussion here if you want to collaborate on this project.
+
 # Meshtastic Chatbot
 
 This repository contains the Meshtastic Chatbot project which utilizes the Meshtastic documentation as a submodule.
